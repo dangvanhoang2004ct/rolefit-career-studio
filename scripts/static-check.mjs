@@ -1,0 +1,12 @@
+import {readFile,stat} from 'node:fs/promises';
+import assert from 'node:assert/strict';
+const root=await readFile('public/index.html','utf8');
+const js=await readFile('public/assets/app.js','utf8');
+const ids=[...root.matchAll(/\bid="([^"]+)"/g)].map(x=>x[1]);
+assert.equal(ids.length,new Set(ids).size,'Duplicate HTML ID');
+const queried=[...js.matchAll(/\$\('([^']+)'\)/g)].map(x=>x[1]);
+const missing=[...new Set(queried)].filter(id=>!ids.includes(id));
+assert.deepEqual(missing,[],'Missing DOM IDs: '+missing.join(','));
+for(const x of ['public/assets/share-card.png','public/assets/favicon.svg','netlify/functions/analyze.mjs','netlify/functions/chat.mjs','netlify/functions/compare.mjs','netlify/lib/report-schema.mjs'])assert.ok((await stat(x)).size>0, x);
+for(const snippet of ['id="report-editor"','id="save-workspace"','id="restore-workspace"','id="resume-editor"','id="chat-input"'])assert.ok(root.includes(snippet));
+console.log('PASS — frontend HTML/JS IDs are consistent; core site files present; no duplicate IDs.');

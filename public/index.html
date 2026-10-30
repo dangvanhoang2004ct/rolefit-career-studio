@@ -1,0 +1,75 @@
+<!doctype html>
+<html lang="vi">
+<head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><meta name="theme-color" content="#0b1020">
+<meta name="robots" content="noindex,nofollow"><meta name="description" content="RoleFit Career Studio — phân tích JD, đối chiếu CV bằng chứng, tối ưu CV Harvard và xây lộ trình bổ sung năng lực.">
+<meta property="og:image" content="/assets/share-card.png"><meta property="og:locale" content="vi_VN"><meta property="og:title" content="RoleFit — CV × JD Career Studio"><meta property="og:description" content="Đối chiếu năng lực với yêu cầu tuyển dụng, tối ưu CV Word và học đúng khoảng trống quan trọng."><meta property="og:type" content="website">
+<title>RoleFit — Career Studio | CV × JD</title>
+<link rel="icon" href="./assets/favicon.svg" type="image/svg+xml">
+<link rel="stylesheet" href="./assets/style.css">
+</head>
+<body>
+<div class="app-shell">
+ <aside class="sidebar" id="sidebar">
+  <div class="brand"><div class="brandmark">R<span>✦</span></div><div><strong>RoleFit<span class="branddot">.</span></strong><small>CAREER INTELLIGENCE</small></div></div>
+  <div class="sidetag">TRUNG TÂM LÀM VIỆC</div>
+  <nav aria-label="Điều hướng">
+   <button class="navitem active" data-go="workspace"><span>▦</span> Phân tích CV × JD</button>
+   <button class="navitem" data-go="reports"><span>◫</span> Kết quả &amp; CV</button>
+   <button class="navitem" data-go="compare"><span>◇</span> So sánh nhiều JD</button>
+   <button class="navitem" data-go="assistant"><span>✳</span> Trợ lý ứng tuyển</button>
+  </nav>
+  <div class="sidebar-bottom">
+   <div class="sidenote"><div class="small-icon">♧</div><strong>Không suy diễn thành tích</strong><p>Mọi đánh giá cần dựa trên JD và bằng chứng trong hồ sơ.</p></div>
+   <div class="sidefoot">ROLEFIT / V2.0 <span>© 2026</span></div>
+  </div>
+ </aside>
+ <div class="main-wrap">
+  <header class="topbar"><button class="menu-button" id="menu-btn" aria-label="Mở menu">☰</button><div class="crumb">WORKSPACE <span>/</span> <b id="crumb-section">PHÂN TÍCH JD</b></div><div class="top-actions"><span class="status-dot" id="api-dot"></span><span id="api-status">Đang kiểm tra AI</span><button class="outline-btn small" id="settings-btn">⚙ Thiết lập</button></div></header>
+  <main>
+   <section class="page active" id="page-workspace">
+    <div class="hero"><div class="eyebrow"><span class="eyedot"></span> CAREER DEVELOPMENT STUDIO <span class="hero-version">2026 EDITION</span></div><h1>Đọc đúng <em>JD.</em><br>Hiểu rõ <em>năng lực.</em></h1><p>Một không gian làm việc để phân tích yêu cầu tuyển dụng, tìm bằng chứng trong CV và xây kế hoạch thu hẹp khoảng cách — không thổi phồng thành tích.</p><div class="hero-metrics"><div><b>06</b><span>BƯỚC ĐÁNH GIÁ</span></div><div><b>03</b><span>KHOẢNG TRỐNG ƯU TIÊN</span></div><div><b>01</b><span>CV RIÊNG / JD</span></div></div><div class="hero-orb" aria-hidden="true"></div></div>
+    <div class="section-heading"><div><div class="overline">01 / HỒ SƠ ỨNG TUYỂN</div><h2>Bắt đầu phân tích</h2></div><button class="subtle-btn" id="demo-btn">↗ Xem bản minh họa</button></div>
+    <div class="workspace-grid">
+     <div class="panel">
+      <div class="panel-heading"><span class="panelnum">A</span><div><h3>Thông tin vị trí &amp; JD</h3><p>Nhập đúng nội dung nhà tuyển dụng đã đăng</p></div></div>
+      <div class="two-fields"><label>Vị trí ứng tuyển <input id="job-title" placeholder="Ví dụ: Financial Analyst / FP&A" autocomplete="off"></label><label>Công ty <input id="company" placeholder="Tên công ty" autocomplete="off"></label></div>
+      <label class="textarea-label">Mô tả công việc (JD) <span class="optional">BẮT BUỘC</span><textarea id="jd-text" rows="10" placeholder="Dán toàn bộ JD tại đây — nhiệm vụ, yêu cầu, kỹ năng, tiêu chí bắt buộc và ưu tiên..."></textarea></label>
+      <div class="file-row"><label class="file-picker">⌁ Đính kèm JD <input type="file" id="jd-file" accept=".txt,.md,.pdf,.docx,image/png,image/jpeg,image/webp" multiple hidden></label><span id="jd-file-names" class="file-names">TXT, PDF, DOCX hoặc ảnh</span></div>
+     </div>
+     <div class="panel">
+      <div class="panel-heading"><span class="panelnum cyan">B</span><div><h3>CV &amp; dữ kiện đã xác nhận</h3><p>Không mặc định lấy dữ liệu cá nhân từ ChatGPT</p></div></div>
+      <label class="textarea-label">Nội dung CV hiện tại <span class="optional">BẮT BUỘC</span><textarea id="cv-text" rows="10" placeholder="Dán CV của bạn, gồm học vấn, kinh nghiệm, thành tích, kỹ năng, thời gian và các dữ kiện đã được xác nhận..."></textarea></label>
+      <div class="file-row"><label class="file-picker">⌁ Tải CV lên <input type="file" id="cv-file" accept=".txt,.md,.pdf,.docx" hidden></label><span id="cv-file-name" class="file-names">Ưu tiên DOCX hoặc PDF có thể chọn chữ</span></div>
+      <label class="textarea-label supplementary">Ghi chú / bằng chứng bổ sung <span class="optional">KHÔNG BẮT BUỘC</span><textarea id="extra-context" rows="3" placeholder="Dự án, portfolio, kinh nghiệm chưa đưa vào CV, thông tin cần giữ nguyên... Ghi rõ đâu là việc đã làm."></textarea></label>
+      <label class="small-check"><input type="checkbox" id="consent"> Tôi xác nhận đã xem nội dung và đồng ý gửi JD/CV lên dịch vụ AI khi bấm Phân tích.</label>
+     </div>
+    </div>
+    <div class="actionbar"><div><strong>Bước tiếp theo: Đánh giá có bằng chứng</strong><p id="run-hint">Kết quả sẽ có bảng đối chiếu, CV Word và kế hoạch học tập.</p></div><div class="actionbtns"><button class="outline-btn" id="clear-btn">Xóa dữ liệu nhập</button><button class="primary-btn" id="analyze-btn">Phân tích JD &amp; CV <span>↗</span></button></div></div>
+    <div class="methodology"><div class="methodtitle">QUY TẮC ĐÁNH GIÁ</div><div class="methodgrid"><div><b>01.</b><span>Phân biệt JD và suy luận</span></div><div><b>02.</b><span>CV thiếu thông tin ≠ thiếu năng lực</span></div><div><b>03.</b><span>Không tự thêm số liệu hoặc thành tích</span></div><div><b>04.</b><span>Chỉ chọn 3 khoảng trống ưu tiên</span></div></div></div>
+   </section>
+   <section class="page" id="page-reports">
+    <div class="page-head"><div class="overline">02 / PHÂN TÍCH &amp; HỒ SƠ</div><h1>Kết quả đánh giá</h1><p>Chỉnh sửa nội dung trước khi sao chép hoặc xuất CV Word.</p></div>
+    <div id="report-empty" class="empty-state"><span class="empty-icon">◫</span><h2>Chưa có báo cáo</h2><p>Quay lại mục Phân tích CV × JD để chạy phân tích hoặc xem dữ liệu minh họa.</p><button class="primary-btn" data-link="workspace">Nhập JD →</button></div>
+    <div id="report-content" hidden>
+     <div class="report-toolbar"><div class="report-select-wrap"><span>ĐANG XEM</span><select id="report-select" aria-label="Chọn báo cáo"></select></div><div class="toolbar-right"><button class="outline-btn" id="copy-report">⧉ Sao chép báo cáo</button><button class="outline-btn" id="download-md">↓ Báo cáo .md</button><button class="outline-btn" id="save-workspace">↓ Sao lưu JSON</button><button class="primary-btn" id="export-docx">↓ Xuất CV Word</button></div></div>
+     <div class="report-overview"><div class="verdict"><div class="overline">NHẬN ĐỊNH ỨNG TUYỂN</div><h2 id="verdict-label">—</h2><p id="report-reason"></p></div><div class="barrier"><div class="overline">RÀO CẢN CHÍNH</div><p id="report-barrier"></p></div></div>
+     <div class="tabbar"><button class="tab active" data-tab="summary">Tổng quan JD</button><button class="tab" data-tab="matrix">Bằng chứng &amp; khoảng trống</button><button class="tab" data-tab="resume">CV Harvard (chỉnh sửa)</button><button class="tab" data-tab="roadmap">Lộ trình học</button></div>
+     <div class="tabpane active" id="tab-summary"><div class="panel"><div class="section-heading compact"><div><div class="overline">PHÂN TÍCH VAI TRÒ</div><h2 id="job-report-title"></h2></div></div><p id="job-objective" class="body-text"></p><div class="sum-columns"><div><h3>Yêu cầu bắt buộc</h3><ul id="mandatory-list"></ul></div><div><h3>Yêu cầu ưu tiên</h3><ul id="preferred-list"></ul></div></div><div class="notes-block"><h3>Lưu ý xác minh</h3><ul id="analysis-notes"></ul></div></div></div>
+     <div class="tabpane" id="tab-matrix"><div class="panel no-padding"><div class="table-heading"><div><div class="overline">MA TRẬN ĐỐI CHIẾU</div><h2>Yêu cầu ↔ Bằng chứng</h2></div><div id="matrix-count" class="matrix-count"></div></div><div class="table-scroll"><table><thead><tr><th>Yêu cầu JD</th><th>Bằng chứng từ CV</th><th>Mức độ</th><th>Khoảng trống</th><th>Hành động</th></tr></thead><tbody id="matrix-body"></tbody></table></div></div><div class="panel"><h3>Bù khoảng cách kinh nghiệm</h3><ul id="bridge-list" class="nice-list"></ul></div></div>
+     <div class="tabpane" id="tab-resume"><div class="panel"><div class="editor-header"><div><div class="overline">HARVARD / 1 CỘT / ATS-FRIENDLY</div><h2>Bản CV riêng cho vị trí</h2><p>Chỉnh trực tiếp văn bản bên dưới trước khi xuất `.docx`.</p></div><div class="editor-tools"><button class="outline-btn" id="copy-cv">⧉ Sao chép CV</button><button class="primary-btn" id="export-docx-2">↓ Word .docx</button></div></div><textarea id="resume-editor" spellcheck="true" aria-label="Nội dung CV có thể chỉnh sửa"></textarea><div class="editor-foot"><span id="resume-count"></span><span>Tiêu đề: # &nbsp;·&nbsp; Mục: ## &nbsp;·&nbsp; Gạch đầu dòng: -</span></div><div id="omission-box" class="notes-block"><h3>Đề xuất lược bỏ (chưa tự xóa)</h3><ul id="omission-list"></ul></div></div></div>
+     <div class="tabpane" id="tab-roadmap"><div class="roadmap-head"><h2>3 ưu tiên để thu hẹp khoảng cách</h2><p>Phân nhóm theo thời điểm: trước ứng tuyển, trước phỏng vấn, học tiếp sau đó.</p></div><div id="plan-cards" class="plan-grid"></div></div>
+     <div class="panel report-notes-editor"><div class="editor-header"><div><div class="overline">TOÀN BỘ BÁO CÁO / CÓ THỂ CHỈNH SỬA</div><h2>Bản báo cáo biên tập</h2><p>Sao chép nội dung hoặc tải Markdown. Nội dung trong ô này là bản biên tập riêng, không tự ghi đè ma trận gốc.</p></div><button class="outline-btn" id="copy-report-editor">⧉ Sao chép</button></div><textarea id="report-editor" rows="12" aria-label="Chỉnh sửa toàn bộ báo cáo"></textarea><div class="editor-foot"><span id="report-word-count"></span><span>Báo cáo được giữ trong tab hiện tại, trừ khi bạn chủ động sao lưu.</span></div></div>
+     <div class="panel workspace-backup"><div><h3>Quản lý báo cáo</h3><p>Khôi phục báo cáo cũ bằng JSON, hoặc xóa hoàn toàn báo cáo trong phiên làm việc.</p></div><div class="actionbtns"><label class="file-picker">↑ Nhập bản sao lưu JSON<input type="file" id="restore-workspace" accept=".json,application/json" hidden></label><button class="outline-btn" id="clear-reports">Xóa mọi báo cáo</button></div></div>
+    </div>
+   </section>
+   <section class="page" id="page-compare"><div class="page-head"><div class="overline">03 / PHÁT TRIỂN NĂNG LỰC</div><h1>So sánh nhiều JD</h1><p>Phát hiện năng lực xuất hiện lặp lại trong các báo cáo — để học một lần, áp dụng nhiều vị trí.</p></div><div class="panel"><div class="overline">DANH SÁCH ĐÃ PHÂN TÍCH</div><div id="compare-list" class="compare-list"></div><div class="divider"></div><div class="compare-heading"><h3>Yêu cầu chung cần học</h3><button class="outline-btn" id="compare-ai">✳ Phân tích điểm chung bằng AI</button></div><div id="common-skills" class="common-skills"></div><div id="compare-ai-result" class="notes-block" hidden></div><p class="caution">Mặc định chỉ nhóm tên kỹ năng trùng khớp; dùng nút AI để gộp các năng lực tương đương về ý nghĩa.</p></div></section>
+   <section class="page" id="page-assistant"><div class="page-head"><div class="overline">04 / HỎI ĐÁP THEO HỒ SƠ</div><h1>Trợ lý ứng tuyển</h1><p>Đặt câu hỏi tiếp dựa trên JD, CV và báo cáo đang chọn. Khi gửi câu hỏi, nội dung liên quan được gửi đến dịch vụ AI đã cấu hình; chatbot không truy cập hồ sơ ChatGPT.</p></div><div class="chat-frame"><div class="chat-top"><div class="assistant-avatar">✳</div><div><b>RoleFit Assistant</b><span>Phân tích dựa trên dữ liệu bạn cung cấp</span></div><span class="chat-online" id="chat-mode">Cần AI</span></div><div class="chat-messages" id="chat-messages"><div class="bubble bot">Xin chào! Sau khi phân tích một JD, bạn có thể hỏi: “Tôi nên học gì trước?”, “Câu CV này có thổi phồng không?” hoặc “Hãy giúp tôi chuẩn bị phỏng vấn cho vị trí này”.</div></div><div class="quick-prompts"><button data-question="Chỉ ra ba rào cản lớn nhất và cách khắc phục thực tế.">3 rào cản chính</button><button data-question="Tôi nên làm dự án portfolio nào để chứng minh năng lực còn thiếu?">Ý tưởng portfolio</button><button data-question="Hãy hỏi tôi 5 câu phỏng vấn sát với JD này.">Luyện phỏng vấn</button></div><form class="chat-compose" id="chat-form"><textarea id="chat-input" rows="2" placeholder="Hỏi về JD, CV hoặc lộ trình học..." aria-label="Câu hỏi chatbot"></textarea><button type="submit" class="primary-btn">Gửi ↗</button></form></div></section>
+  </main>
+  <footer>ROLEFIT CAREER STUDIO <span>Đánh giá dựa trên bằng chứng · Bạn là người quyết định nội dung ứng tuyển</span></footer>
+ </div>
+</div>
+<dialog id="settings-dialog"><form method="dialog" class="settings-dialog"><div class="settings-title"><div><div class="overline">KẾT NỐI AI</div><h2>Thiết lập bảo mật</h2></div><button class="icon-btn" value="cancel" aria-label="Đóng">✕</button></div><p>Website gọi AI thông qua Netlify Functions. API key nằm ở máy chủ, <strong>không nhập API key vào trang công khai</strong>.</p><label>Mã truy cập AI của website <input id="access-code" type="password" placeholder="Mã truy cập từ 12 ký tự trở lên" autocomplete="off"></label><p class="field-help">Đặt biến <code>APP_ACCESS_CODE</code> và <code>OPENAI_API_KEY</code> trong Netlify. Mã truy cập chỉ được giữ trong phiên mở trang hiện tại.</p><label class="small-check"><input type="checkbox" id="save-cv-local"> Cho phép lưu CV/JD trên thiết bị này (localStorage)</label><div class="dialog-actions"><button class="outline-btn" value="cancel">Đóng</button><button id="save-settings" class="primary-btn" value="default">Lưu thiết lập</button></div></form></dialog>
+<div id="toast" role="status" aria-live="polite"></div>
+<script defer src="./assets/app.js"></script>
+</body></html>
