@@ -1,5 +1,14 @@
 # RoleFit 2.0 — CV × JD Career Studio
 
+## Triển khai RoleFit trên Netlify
+
+[![Deploy to Netlify](https://www.netlify.com/img/deploy/button.svg)](https://app.netlify.com/start/deploy?repository=https://github.com/dangvanhoang2004ct/rolefit-career-studio)
+
+**Lưu ý:** Nút trên **bắt đầu quy trình tạo site**, chưa phải URL website đã công khai. Luồng template có thể sao chép repository; để giữ liên kết đúng với repository hiện có, vào [Netlify Import an existing project](https://app.netlify.com/start) và chọn repo `dangvanhoang2004ct/rolefit-career-studio`.
+
+Cần khai báo `OPENAI_API_KEY`, `APP_ACCESS_CODE` (≥12 ký tự) bằng **Netlify Environment variables**; `OPENAI_MODEL` tùy chọn. Không đưa bí mật vào repository. Sau khi deploy, kiểm tra `/api/health` và phân tích thử CV/JD. Xem [USAGE.md](USAGE.md) và [PROJECT_BRIEF.md](PROJECT_BRIEF.md) trước khi mở cho công chúng.
+
+
 Hệ thống phân tích CV so với JD, phân loại bằng chứng, tạo CV Word có thể chỉnh sửa, chọn tối đa ba năng lực ưu tiên và hỏi đáp AI theo ngữ cảnh. Giao diện sử dụng tiếng Việt, thiết kế desktop và mobile.
 
 **Bắt đầu:** đọc [START-HERE.md](START-HERE.md) trước khi triển khai Netlify.
