@@ -1,3 +1,9 @@
+# RoleFit 2.1 — AI Gateway
+
+Bản hiện tại dùng Netlify AI Gateway, không yêu cầu người dùng nhập API key hoặc mã truy cập chung. Xem [USAGE.md](USAGE.md) để biết cấu hình, giới hạn và cách vận hành.
+
+Các hướng dẫn 2.0 cũ bên dưới chỉ là lịch sử, yêu cầu APP_ACCESS_CODE không còn áp dụng.
+
 # RoleFit 2.0 — CV × JD Career Studio
 
 ## Triển khai RoleFit trên Netlify

@@ -1,37 +1,25 @@
-# Hoàn tất RoleFit trên Netlify
+# RoleFit 2.1 — vận hành
 
-> RoleFit là ứng dụng CV × JD có xử lý AI ở Netlify Functions. Không phải website tĩnh thuần túy.
+Website: https://rolefit-career-studio.netlify.app/
 
-## Cách nhanh nhất từ repository có sẵn
+## AI Gateway
+Backend dùng OpenAI SDK với OPENAI_API_KEY và OPENAI_BASE_URL do Netlify AI Gateway cấp ở runtime. Người dùng không phải nhập key riêng hoặc APP_ACCESS_CODE. Gói Netlify phải hỗ trợ AI Gateway và AI Features phải được bật. Model mặc định gpt-4.1-mini được xác nhận có trong providers endpoint khi cập nhật; OPENAI_MODEL vẫn là tùy chọn quản trị.
 
-1. Mở https://app.netlify.com/start và đăng nhập bằng Netlify của chủ website.
-2. Chọn **Import an existing project** > **GitHub** > repository `dangvanhoang2004ct/rolefit-career-studio`.
-3. Branch: `main`; Build command: `npm run build`; Publish: `public`; Functions: `netlify/functions`. Các giá trị đã nằm trong `netlify.toml`.
-4. Trong Netlify > Project configuration > Environment variables, đặt bằng giao diện kín:
-   - `OPENAI_API_KEY`: OpenAI API key của chủ website.
-   - `APP_ACCESS_CODE`: mã bí mật do chủ website tự đặt, dài ít nhất 12 ký tự.
-   - `OPENAI_MODEL`: tùy chọn, mặc định `gpt-4.1-mini`.
-   Đảm bảo scope có **Functions**; lưu và trigger deploy/redeploy sau khi thay đổi.
-5. Kiểm tra **Deploys** báo trạng thái **Published**; nếu có lỗi xem deploy log.
-6. Kiểm tra `https://<ten-site>.netlify.app/api/health`. `ready: true` là đã có hai biến bắt buộc (chưa xác nhận API key được OpenAI chấp nhận).
-7. Mở website và thử với CV/JD mẫu không chứa dữ liệu riêng tư. Kiểm tra: phân tích bằng AI, chat, xuất Word, và so sánh JD.
-8. Kiểm tra URL `.netlify.app` từ máy khác/chế độ ẩn danh. Nếu project là **Private**, đổi thành **Public** theo cài đặt project visibility; không chia sẻ mã truy cập AI công khai.
-9. Gửi đường link public qua Zalo, Facebook hoặc TikTok. Nếu preview ảnh không hiện, kiểm tra metadata `og:image` tại HTML, URL tuyệt đối và khả năng truy cập của trình thu thập của nền tảng.
+GET /api/health chỉ cho biết có cấu hình runtime, KHÔNG chứng minh một lần gọi AI đã thành công. Nếu ready=false, kiểm tra AI Features, gói và credits. Không tạo key giả.
 
-## Liên kết Netlify triển khai từ mã nguồn (template)
+## Giới hạn
+- Phân tích và so sánh: 2 yêu cầu/phút/IP/domain cho mỗi endpoint.
+- Chat: 6 yêu cầu/phút/IP/domain.
+- Bảo vệ cả /api/* và /.netlify/functions/* bằng config.path.
+- JD 16.000, CV 20.000, ghi chú 3.000 ký tự; payload tối đa 4 MB được đếm từ luồng request, không chỉ tin Content-Length.
+- Đầu ra tối đa 6.500 token; chat 1.500, so sánh 1.700. SDK không tự retry, timeout 45 giây.
+- Netlify rate limiting có thể trễ tới 10 giây. Không phải quota tuyệt đối/người dùng hay trần chi phí toàn site; nhiều IP vẫn có thể dùng hết credits. Không bật auto-recharge như một phần bản cập nhật này.
 
-https://app.netlify.com/start/deploy?repository=https://github.com/dangvanhoang2004ct/rolefit-career-studio
+## Dữ liệu
+Hồ sơ mặc định ở bộ nhớ tab. Lưu localStorage chỉ khi người dùng chọn. OpenAI request có store:false. Không ghi CV/JD vào log. Origin check giảm yêu cầu từ website khác nhưng không thay thế xác thực người dùng.
 
-**Chú ý:** Đây là link khởi tạo triển khai, **không phải website RoleFit đã chạy**. Netlify Deploy button có thể sao chép repository thành repo mới. Nếu muốn giữ kết nối chính với repository đang dùng, ưu tiên **Import an existing project**.
+## Cập nhật
+Push main → Netlify tự build npm run build → public và Functions. Không thay repository. .netlify/ và .env được gitignore.
 
-## Bảo mật & giới hạn
-
-- Không đưa API key hoặc `APP_ACCESS_CODE` vào GitHub, frontend, hay hội thoại.
-- Trang web có thể mở công khai, nhưng AI có mã truy cập dùng chung dành cho cá nhân/nhóm tin cậy. Muốn tất cả người dùng đều dùng AI: cần đăng nhập riêng, rate limit, quota, abuse protection, kiểm soát chi phí và chính sách dữ liệu trước khi mở công khai.
-- Chatbot hiện là trợ lý theo yêu cầu, không phải agent tự chạy trong nền; muốn tự động theo lịch cần thiết kế thêm tác vụ nền và lưu trữ có quyền truy cập.
-- CV/JD có thông tin cá nhân; yêu cầu đồng ý gửi trước khi gọi API AI.
-- Không nhận định triển khai đã thành công cho tới khi có URL thật và kiểm thử.
-
-## Theo dõi
-
-Chủ website có thể cập nhật trang qua commit lên branch `main`; Netlify tự build và deploy lại nếu đã kết nối Git.
+## Kiểm thử
+npm test: SDK mock + validation + HTML/JS. npm run build: metadata chia sẻ. Luôn kiểm thử production bằng CV/JD giả lập trước khi xác nhận AI thật; không dùng dữ liệu cá nhân để kiểm tra hệ thống.
