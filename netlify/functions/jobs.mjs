@@ -2,12 +2,15 @@ import OpenAI from 'openai';
 import {json,allow,readBody,askOpenAI} from '../lib/shared.mjs';
 export function linkedInJob(url){try{const u=new URL(url);if(u.protocol!=='https:'||!/(^|\.)linkedin\.com$/.test(u.hostname)||!/^\/jobs\/view\/[^/]+\/?$/.test(u.pathname))return '';u.search='';u.hash='';return u.href.replace(/\/$/,'')}catch{return ''}}
 export function groundedJobs(data){
- const sources=new Set();
- for(const o of data.output||[]){for(const s of o.action?.sources||[]){const u=linkedInJob(s.url);if(u)sources.add(u)}for(const c of o.content||[])for(const a of c.annotations||[]){const u=linkedInJob(a.url);if(u)sources.add(u)}}
+ const sources=new Map();
+ for(const o of data.output||[]){for(const source of [...(o.action?.sources||[]),...(o.content||[]).flatMap(c=>c.annotations||[])]){const u=linkedInJob(source.url);if(u)sources.set(u,source.title||'Tin tuyển dụng LinkedIn')}}
  const text=data.output_text||(data.output||[]).flatMap(o=>(o.content||[]).filter(c=>c.type==='output_text').map(c=>c.text)).join('');
- const parsed=JSON.parse(text.replace(/^```(?:json)?\s*/,'').replace(/\s*```$/,''));const seen=new Set();
- return (Array.isArray(parsed.jobs)?parsed.jobs:[]).filter(x=>{const u=linkedInJob(x.url);if(!u||!sources.has(u)||seen.has(u))return false;seen.add(u);x.url=u;return true}).slice(0,10).map(x=>Object.fromEntries(['title','company','location','reason','caveat','url'].map(k=>[k,String(x[k]||'').slice(0,k==='url'?1500:700)])));
+ let parsed={};try{const first=text.indexOf('{'),last=text.lastIndexOf('}');parsed=JSON.parse(text.slice(first,last+1))}catch{}
+ const fallback=[...sources].map(([url,title])=>({url,title,company:'',location:'',reason:'Tin xuất hiện trong nguồn tìm kiếm theo nhóm nghề đã chọn. Chưa đối chiếu đầy đủ JD với CV.',caveat:'Mở nguồn để xác nhận yêu cầu và trạng thái còn tuyển.'}));
+ const candidates=[...(Array.isArray(parsed.jobs)?parsed.jobs:[]),...fallback],seen=new Set();
+ return candidates.filter(x=>{const u=linkedInJob(x.url);if(!u||!sources.has(u)||seen.has(u))return false;seen.add(u);x.url=u;return true}).slice(0,10).map(x=>Object.fromEntries(['title','company','location','reason','caveat','url'].map(k=>[k,String(x[k]||'').slice(0,k==='url'?1500:700)])));
 }
+
 export default async function handler(req){
  const err=allow(req);if(err)return err;let b;try{b=await readBody(req)}catch{return json({error:'JSON không hợp lệ'},400)}
  if(b.mode==='profile'){
