@@ -102,7 +102,7 @@ function showReportPage(key,scroll=true){
 $('report-prev').onclick=()=>showReportPage(reportPages[reportPages.indexOf(state.reports[state.current]?.reportPage)-1]);
 $('report-next').onclick=()=>showReportPage(reportPages[reportPages.indexOf(state.reports[state.current]?.reportPage)+1]);
 function renderExtras(item){
- $('cv-ai-result').hidden=!item.aiRevision;
+ $('cv-ai-result').hidden=!item.aiRevision;$('apply-cv-ai').disabled=!!item.reviewBusy;
  $('cv-ai-feedback').textContent=item.aiRevision?.feedback||'';$('cv-ai-draft').value=item.aiRevision?.cv||'';
  $('cv-ai-status').textContent=item.reviewStatus||'';$('review-cv').disabled=!!item.reviewBusy;
  $('undo-cv-ai').disabled=typeof item.beforeAI!=='string';
