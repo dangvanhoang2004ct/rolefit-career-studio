@@ -139,3 +139,5 @@ async function findJobs(){
  finally{item.jobsBusy=false;if(state.reports[state.current]===item)renderExtras(item)}
 }
 $('find-jobs').onclick=findJobs;
+
+$('example-jobs').onclick=async()=>{const item=state.reports[state.current];if(!item||item.jobsBusy)return;try{const r=await fetch('/assets/job-examples.json');if(!r.ok)throw Error('Không tải được bộ ví dụ');item.jobs=await r.json();item.jobsStatus='10 JD tham khảo — ghi nhận ngày 31/10/2026. Đây là bộ ví dụ, không phải kết quả phù hợp nhất cho CV đang nhập.';renderExtras(item)}catch(e){notify(e.message)}};
