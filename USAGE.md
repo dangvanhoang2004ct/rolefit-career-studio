@@ -23,3 +23,12 @@ Push main → Netlify tự build npm run build → public và Functions. Không 
 
 ## Kiểm thử
 npm test: SDK mock + validation + HTML/JS. npm run build: metadata chia sẻ. Luôn kiểm thử production bằng CV/JD giả lập trước khi xác nhận AI thật; không dùng dữ liệu cá nhân để kiểm tra hệ thống.
+
+
+## Kết quả theo trang và AI biên tập
+- Dùng Trang trước/Trang tiếp: tổng quan, bằng chứng, CV Harvard, lộ trình, việc làm, báo cáo đầy đủ.
+- Trong CV Harvard: yêu cầu AI nhận xét và đề xuất; đọc bản đề xuất, bấm Áp dụng. Hoàn tác khôi phục bản trước; Word luôn xuất nội dung trong ô CV đang sửa.
+- Việc làm: chọn địa điểm, bấm Tìm việc từ CV hoặc bật tìm sau phân tích. Hai bước: AI chọn nghề từ CV, rồi truy vấn web LinkedIn công khai bằng từ khóa nghề/địa điểm. Chỉ hiện URL có trong nguồn trả về; không bịa để đủ 10. Thứ tự là độ liên quan với nhóm nghề, chưa phải đối chiếu toàn bộ CV với mọi JD.
+- Không kết nối OAuth LinkedIn, không dùng cookie/tài khoản của chủ website cho khách. Đăng nhập LinkedIn trong Cloud Browser không cấp API việc làm cho website.
+- Nếu Gateway không hỗ trợ web_search, hiển thị lỗi rõ ràng; cần nguồn tìm kiếm được cấp quyền để mở chức năng này.
+- /api/revise: 2 lượt/phút/IP; /api/jobs: 4 lượt/phút/IP (2 lượt cho một quy trình). Không lưu CV/JD server-side, không lưu đầu ra provider qua store:false. Giới hạn IP không phải hạn mức chi phí toàn tài khoản; theo dõi credits trong Netlify.

@@ -1,0 +1,15 @@
+import assert from 'node:assert/strict';
+import jobs,{groundedJobs,linkedInJob} from '../netlify/functions/jobs.mjs';
+import revise from '../netlify/functions/revise.mjs';
+process.env.OPENAI_API_KEY='test-only';process.env.OPENAI_BASE_URL='https://gateway.test/v1';
+const post=b=>new Request('https://example.test',{method:'POST',headers:{'content-type':'application/json'},body:JSON.stringify(b)});
+assert.equal(linkedInJob('https://linkedin.com.evil.test/jobs/view/123'),'');
+assert.equal(linkedInJob('javascript:alert(1)'),'');
+const url='https://www.linkedin.com/jobs/view/123';
+const response={output:[{type:'web_search_call',action:{sources:[{url}]}},{type:'message',content:[{type:'output_text',text:JSON.stringify({jobs:[{title:'Analyst',url},{title:'Duplicate',url},{title:'Invented',url:'https://www.linkedin.com/jobs/view/456'},{title:'Unsafe',url:'javascript:alert(1)'}]})}]}]};
+assert.equal(groundedJobs(response).length,1);
+assert.equal((await jobs(post({mode:'search',roles:['Analyst'],location:'email@private.test'}))).status,400);
+assert.equal((await revise(post({original:'c'.repeat(80),cv:'c'.repeat(20001),jd:'j'.repeat(80)}))).status,413);
+let payload;global.fetch=async(url,o)=>{payload=JSON.parse(o.body);return new Response(JSON.stringify({status:'completed',output:[{type:'message',content:[{type:'output_text',text:JSON.stringify({feedback:'Giữ nguyên số liệu',cv:'# Sample\n- Six reports'})}]}]}),{headers:{'content-type':'application/json'}})};
+const revision=await revise(post({original:'c'.repeat(80),cv:'c'.repeat(80),jd:'j'.repeat(80)}));assert.equal(revision.status,200);assert.equal((await revision.json()).cv,'# Sample\n- Six reports');assert.equal(payload.store,false);assert.equal(payload.text.format.strict,true);
+console.log('PASS: source-bound job URLs, deduplication, private query rejection, revision size/schema. Mock only.');
