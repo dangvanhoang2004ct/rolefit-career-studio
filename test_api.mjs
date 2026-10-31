@@ -28,6 +28,8 @@ try{
  assert.equal((await compare(post({code:okCode,reports:[{title:'A'}]}))).status,400);
  assert.equal((await analyze(new Request('https://testing.local',{method:'GET'}))).status,405);
  assert.equal((await analyze(post({jd:'j'.repeat(16001),cv:'c'.repeat(100)}))).status,413);
+ const sparse=await analyze(post({jd:'Tuyển nhân viên bán hàng: tiếp nhận nhu cầu khách, giới thiệu sản phẩm và phối hợp với cửa hàng.',cv:'tôi làm bán hàng'})); assert.equal(sparse.status,200);
+ assert.equal((await analyze(post({jd:'j'.repeat(100),cv:'   '}))).status,400);
  delete process.env.OPENAI_BASE_URL;assert.equal((await health(new Request('https://testing.local'))).status,200);assert.equal((await analyze(post({jd:'j'.repeat(100),cv:'c'.repeat(100)}))).status,503);
  console.log('PASS — SDK mock, request validation, no shared code, output schema, size limits and unavailable Gateway. Not a live AI test.');
 }finally{global.fetch=oldFetch}
