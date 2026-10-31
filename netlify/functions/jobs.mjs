@@ -3,9 +3,9 @@ import {json,allow,readBody,askOpenAI} from '../lib/shared.mjs';
 export function linkedInJob(url){try{const u=new URL(url);if(u.protocol!=='https:'||!/(^|\.)linkedin\.com$/.test(u.hostname)||!/^\/jobs\/view\/[^/]+\/?$/.test(u.pathname))return '';u.search='';u.hash='';return u.href.replace(/\/$/,'')}catch{return ''}}
 export function groundedJobs(data){
  const sources=new Map();
- for(const o of data.output||[]){for(const source of [...(o.action?.sources||[]),...(o.content||[]).flatMap(c=>c.annotations||[])]){const u=linkedInJob(source.url);if(u)sources.set(u,source.title||'Tin tuyển dụng LinkedIn')}}
+ for(const o of data.output||[]){for(const source of [...(o.action?.sources||[]),...(o.content||[]).flatMap(c=>c.annotations||[])]){const u=linkedInJob(source.url);if(u)sources.set(u,source.title||decodeURIComponent(new URL(u).pathname.split('/').pop()).replace(/-\d+$/,'').replace(/-/g,' ')+' (từ URL nguồn)')}}
  const text=data.output_text||(data.output||[]).flatMap(o=>(o.content||[]).filter(c=>c.type==='output_text').map(c=>c.text)).join('');
- let parsed={};try{const first=text.indexOf('{'),last=text.lastIndexOf('}');parsed=JSON.parse(text.slice(first,last+1))}catch{}
+ let parsed={};try{const first=text.indexOf('{'),last=text.lastIndexOf('}');parsed=JSON.parse(text.slice(first,last+1).replace(/[^]*/g,''))}catch{}
  const fallback=[...sources].map(([url,title])=>({url,title,company:'',location:'',reason:'Tin xuất hiện trong nguồn tìm kiếm theo nhóm nghề đã chọn. Chưa đối chiếu đầy đủ JD với CV.',caveat:'Mở nguồn để xác nhận yêu cầu và trạng thái còn tuyển.'}));
  const candidates=[...(Array.isArray(parsed.jobs)?parsed.jobs:[]),...fallback],seen=new Set();
  return candidates.filter(x=>{const u=linkedInJob(x.url);if(!u||!sources.has(u)||seen.has(u))return false;seen.add(u);x.url=u;return true}).slice(0,10).map(x=>Object.fromEntries(['title','company','location','reason','caveat','url'].map(k=>[k,String(x[k]||'').slice(0,k==='url'?1500:700)])));
